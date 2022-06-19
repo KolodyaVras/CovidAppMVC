@@ -1,0 +1,89 @@
+﻿@model CovidAppMVC.Models.Сотрудники
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Подробная информация</h2>
+
+<div>
+    <h4>Сотрудники</h4>
+    <hr />
+    <p>
+        @using (Html.BeginForm("ExportHistory", "Users", new { id = Model.Код_сотрудника }))
+        {
+            <h5>Сформировать историю вакцинации:</h5>
+            <input type="submit" value="Добавить" class="btn btn-primary" />
+        }
+    </p>
+    <dl class="dl-horizontal">
+        <dt>
+            ФИО
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ФИО_сотрудника)
+        </dd>
+
+        <dt>
+            Дата рождения
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Дата_рождения)
+        </dd>
+
+        <dt>
+            Серия и номер паспорта
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Серия_номер_паспорта)
+        </dd>
+
+        <dt>
+            Emal
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            Администратор
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Администратор)
+        </dd>
+
+        <dt>
+            Квалификация
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Квалификации.Квалификация)
+        </dd>
+
+        <dt>
+            Пол
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Пол.Пол1)
+        </dd>
+
+        <dt>
+            Участок
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Участки_организации.Наименование_участка)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Изменить", "Edit", new { id = Model.Код_сотрудника }) |
+    @Html.ActionLink("Вернуться к списку пользователей", "Index")
+</p>

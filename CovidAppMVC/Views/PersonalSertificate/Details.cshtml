@@ -1,0 +1,58 @@
+﻿@model CovidAppMVC.Models.Сертификаты
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Подробная информация</h2>
+
+<div>
+    <h4>Сертификаты</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Номер сертификата
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Номер_сертификата)
+        </dd>
+
+        <dt>
+            Дата начала действия сертификата
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Дата_начала_действия)
+        </dd>
+
+        <dt>
+            Дата окончания действия сертификата
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Дата_окончания_действия)
+        </dd>
+
+        <dt>
+            ФИО сотрудника
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Сотрудники.ФИО_сотрудника)
+        </dd>
+
+        <dt>
+            Тип сертификата
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Типы_сертификатов.Тип_сертификата)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Изменить", "Edit", new { id = Model.Код_сертификата }) |
+    @Html.ActionLink("Вернуться к списку сертификатов", "Index", new { id = Model.Код_сотрудника })
+</p>

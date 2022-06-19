@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <th align="center"><u>Live Camera</u></th>
+            <th align="center"><u>Captured Picture</u></th>
+        </tr>
+        <tr>
+            <td><div id="webcam"></div></td>
+            <td><img id="imgCapture" /></td>
+        </tr>
+        <tr>
+            <td align="center">
+                <input type="button" id="btnCapture" value="Capture" />
+            </td>
+            <td align="center">
+                <input type="button" id="btnUpload" value="Upload" disabled="disabled" />
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="~/Scripts/WebCam2.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            Webcam.set({
+                width: 320,
+                height: 240,
+                image_format: 'jpeg',
+                jpeg_quality: 90
+            });
+            Webcam.attach('#webcam');
+            $("#btnCapture").click(function () {
+                Webcam.snap(function (data_uri) {
+                    $("#imgCapture")[0].src = data_uri;
+                    $("#btnUpload").removeAttr("disabled");
+                });
+            });
+            $("#btnUpload").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Qr/SaveCapture",
+                    data: "{data: '" + $("#imgCapture")[0].src + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) { }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

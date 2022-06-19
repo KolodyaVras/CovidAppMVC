@@ -1,0 +1,88 @@
+﻿@model CovidAppMVC.Models.Сотрудники
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удаление пользователя</h2>
+
+<h3>Вы действительно хотите удалить пользователя из базы данных?</h3>
+<div>
+    <h4>Сотрудники</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            ФИО
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ФИО_сотрудника)
+        </dd>
+
+        <dt>
+            Дата рождения
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Дата_рождения)
+        </dd>
+
+        <dt>
+            Серия и номер паспорта
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Серия_номер_паспорта)
+        </dd>
+
+        <dt>
+            Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            Администратор
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Администратор)
+        </dd>
+
+        <dt>
+            Квалификация
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Квалификации.Квалификация)
+        </dd>
+
+        <dt>
+            Пол
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Пол.Пол1)
+        </dd>
+
+        <dt>
+            Участок
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Участки_организации.Наименование_участка)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить запись" class="btn btn-default" /> |
+            @Html.ActionLink("Вернуться к списку пользователей", "Index")
+        </div>
+    }
+</div>

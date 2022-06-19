@@ -1,0 +1,74 @@
+﻿@model IEnumerable<CovidAppMVC.Models.Сертификаты>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Просмотр сертификатов</h2>
+
+<p>
+    <div class="mb-3 mt-3">
+        @foreach (var item in Model)
+        {
+            @Html.ActionLink("Добавить новый сертификат вручную", "Create", new { id = item.Код_сотрудника });
+            <br />
+            <div class="mb-3">
+                <form action="/PersonalSertificate/CreateFromPdf/@item.Код_сотрудника" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <label for="file">PDF:</label>
+                    <input type="file" name="file" id="file" class="form-control" value="Добавить сертификат" />
+                    <br />
+                    <input type="submit" value="Добавить" class="btn btn-primary" />
+                </form>
+            </div>
+            break;
+        }
+    </div>
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Номер сертификата
+            </th>
+            <th>
+                Дата начала действия сертификата
+            </th>
+            <th>
+                Дата окончания действия сертификата
+            </th>
+            <th>
+                Фио сотрудника
+            </th>
+            <th>
+                Тип сертификата
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Номер_сертификата)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Дата_начала_действия)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Дата_окончания_действия)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Сотрудники.ФИО_сотрудника)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Типы_сертификатов.Тип_сертификата)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Код_сертификата }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Код_сертификата }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Код_сертификата })
+                </td>
+            </tr>
+        }
+
+    </table>

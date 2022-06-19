@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f75e1515e95645e2b9f751bfaa6037e8" Name="Diagram1">
+        <EntityTypeShape EntityType="CovidModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="CovidModel.Администраторы" Width="1.5" PointX="7.5" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="CovidModel.Квалификации" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CovidModel.Отделы_организации" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CovidModel.Пол" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CovidModel.Сертификаты" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CovidModel.Сотрудники" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CovidModel.Типы_сертификатов" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CovidModel.Участки_организации" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="CovidModel.FK_Администраторы_Сотрудники" ManuallyRouted="false" />
+        <AssociationConnector Association="CovidModel.FK_Сотрудники_Квалификации" ManuallyRouted="false" />
+        <AssociationConnector Association="CovidModel.FK_Участки_организации_Отделы_организации" ManuallyRouted="false" />
+        <AssociationConnector Association="CovidModel.FK_Сотрудники_Пол" ManuallyRouted="false" />
+        <AssociationConnector Association="CovidModel.FK_Сертификаты_Сотрудники" ManuallyRouted="false" />
+        <AssociationConnector Association="CovidModel.FK_Сертификаты_Типы_сертификатов" ManuallyRouted="false" />
+        <AssociationConnector Association="CovidModel.FK_Сотрудники_Участки_организации" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

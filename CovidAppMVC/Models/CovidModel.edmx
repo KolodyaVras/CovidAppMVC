@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище CovidModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Администраторы">
+          <Key>
+            <PropertyRef Name="Код_администратора" />
+          </Key>
+          <Property Name="Код_администратора" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Логин_администратора" Type="varchar(max)" Nullable="false" />
+          <Property Name="Пароль_администратора" Type="varchar(max)" Nullable="false" />
+          <Property Name="Код_сотрудника" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Квалификации">
+          <Key>
+            <PropertyRef Name="Код_квалификации" />
+          </Key>
+          <Property Name="Код_квалификации" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Квалификация" Type="varchar(max)" Nullable="false" />
+          <Property Name="Возможность_УРР" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Отделы_организации">
+          <Key>
+            <PropertyRef Name="Код_отдела" />
+          </Key>
+          <Property Name="Код_отдела" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Наименование_отдела" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Пол">
+          <Key>
+            <PropertyRef Name="Код_пола" />
+          </Key>
+          <Property Name="Код_пола" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Пол" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сертификаты">
+          <Key>
+            <PropertyRef Name="Код_сертификата" />
+          </Key>
+          <Property Name="Код_сертификата" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Номер_сертификата" Type="varchar(max)" Nullable="false" />
+          <Property Name="Дата_начала_действия" Type="date" Nullable="false" />
+          <Property Name="Дата_окончания_действия" Type="date" Nullable="false" />
+          <Property Name="Код_сотрудника" Type="int" Nullable="false" />
+          <Property Name="Код_типа_сертификата" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="Код_сотрудника" />
+          </Key>
+          <Property Name="Код_сотрудника" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ФИО_сотрудника" Type="varchar(max)" Nullable="false" />
+          <Property Name="Дата_рождения" Type="date" Nullable="false" />
+          <Property Name="Код_пола" Type="int" Nullable="false" />
+          <Property Name="Серия_номер_паспорта" Type="varchar(max)" Nullable="false" />
+          <Property Name="Email" Type="varchar(max)" />
+          <Property Name="Код_участка" Type="int" Nullable="false" />
+          <Property Name="Код_квалификации" Type="int" Nullable="false" />
+          <Property Name="Администратор" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Типы_сертификатов">
+          <Key>
+            <PropertyRef Name="Код_типа_сертификата" />
+          </Key>
+          <Property Name="Код_типа_сертификата" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Тип_сертификата" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Участки_организации">
+          <Key>
+            <PropertyRef Name="Код_участка" />
+          </Key>
+          <Property Name="Код_участка" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Наименование_участка" Type="varchar(max)" Nullable="false" />
+          <Property Name="Код_отдела" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Администраторы_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Администраторы" Type="Self.Администраторы" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Администраторы">
+              <PropertyRef Name="Код_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сертификаты_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Сертификаты" Type="Self.Сертификаты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Сертификаты">
+              <PropertyRef Name="Код_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сертификаты_Типы_сертификатов">
+          <End Role="Типы_сертификатов" Type="Self.Типы_сертификатов" Multiplicity="1" />
+          <End Role="Сертификаты" Type="Self.Сертификаты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Типы_сертификатов">
+              <PropertyRef Name="Код_типа_сертификата" />
+            </Principal>
+            <Dependent Role="Сертификаты">
+              <PropertyRef Name="Код_типа_сертификата" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Квалификации">
+          <End Role="Квалификации" Type="Self.Квалификации" Multiplicity="1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Квалификации">
+              <PropertyRef Name="Код_квалификации" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="Код_квалификации" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Пол">
+          <End Role="Пол" Type="Self.Пол" Multiplicity="1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пол">
+              <PropertyRef Name="Код_пола" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="Код_пола" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Участки_организации">
+          <End Role="Участки_организации" Type="Self.Участки_организации" Multiplicity="1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Участки_организации">
+              <PropertyRef Name="Код_участка" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="Код_участка" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Участки_организации_Отделы_организации">
+          <End Role="Отделы_организации" Type="Self.Отделы_организации" Multiplicity="1" />
+          <End Role="Участки_организации" Type="Self.Участки_организации" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Отделы_организации">
+              <PropertyRef Name="Код_отдела" />
+            </Principal>
+            <Dependent Role="Участки_организации">
+              <PropertyRef Name="Код_отдела" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище CovidModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Администраторы" EntityType="Self.Администраторы" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Квалификации" EntityType="Self.Квалификации" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Отделы_организации" EntityType="Self.Отделы_организации" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пол" EntityType="Self.Пол" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сертификаты" EntityType="Self.Сертификаты" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Типы_сертификатов" EntityType="Self.Типы_сертификатов" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Участки_организации" EntityType="Self.Участки_организации" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Администраторы_Сотрудники" Association="Self.FK_Администраторы_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Администраторы" EntitySet="Администраторы" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сертификаты_Сотрудники" Association="Self.FK_Сертификаты_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Сертификаты" EntitySet="Сертификаты" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сертификаты_Типы_сертификатов" Association="Self.FK_Сертификаты_Типы_сертификатов">
+            <End Role="Типы_сертификатов" EntitySet="Типы_сертификатов" />
+            <End Role="Сертификаты" EntitySet="Сертификаты" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Квалификации" Association="Self.FK_Сотрудники_Квалификации">
+            <End Role="Квалификации" EntitySet="Квалификации" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Пол" Association="Self.FK_Сотрудники_Пол">
+            <End Role="Пол" EntitySet="Пол" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Участки_организации" Association="Self.FK_Сотрудники_Участки_организации">
+            <End Role="Участки_организации" EntitySet="Участки_организации" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Участки_организации_Отделы_организации" Association="Self.FK_Участки_организации_Отделы_организации">
+            <End Role="Отделы_организации" EntitySet="Отделы_организации" />
+            <End Role="Участки_организации" EntitySet="Участки_организации" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CovidModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Администраторы">
+          <Key>
+            <PropertyRef Name="Код_администратора" />
+          </Key>
+          <Property Name="Код_администратора" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Логин_администратора" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Пароль_администратора" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Код_сотрудника" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Администраторы_Сотрудники" FromRole="Администраторы" ToRole="Сотрудники" />
+        </EntityType>
+        <EntityType Name="Квалификации">
+          <Key>
+            <PropertyRef Name="Код_квалификации" />
+          </Key>
+          <Property Name="Код_квалификации" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Квалификация" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Возможность_УРР" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Сотрудники_Квалификации" FromRole="Квалификации" ToRole="Сотрудники" />
+        </EntityType>
+        <EntityType Name="Отделы_организации">
+          <Key>
+            <PropertyRef Name="Код_отдела" />
+          </Key>
+          <Property Name="Код_отдела" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Наименование_отдела" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Участки_организации" Relationship="Self.FK_Участки_организации_Отделы_организации" FromRole="Отделы_организации" ToRole="Участки_организации" />
+        </EntityType>
+        <EntityType Name="Пол">
+          <Key>
+            <PropertyRef Name="Код_пола" />
+          </Key>
+          <Property Name="Код_пола" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Пол1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Сотрудники_Пол" FromRole="Пол" ToRole="Сотрудники" />
+        </EntityType>
+        <EntityType Name="Сертификаты">
+          <Key>
+            <PropertyRef Name="Код_сертификата" />
+          </Key>
+          <Property Name="Код_сертификата" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Номер_сертификата" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Дата_начала_действия" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Дата_окончания_действия" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Код_сотрудника" Type="Int32" Nullable="false" />
+          <Property Name="Код_типа_сертификата" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Сертификаты_Сотрудники" FromRole="Сертификаты" ToRole="Сотрудники" />
+          <NavigationProperty Name="Типы_сертификатов" Relationship="Self.FK_Сертификаты_Типы_сертификатов" FromRole="Сертификаты" ToRole="Типы_сертификатов" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="Код_сотрудника" />
+          </Key>
+          <Property Name="Код_сотрудника" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ФИО_сотрудника" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Дата_рождения" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Код_пола" Type="Int32" Nullable="false" />
+          <Property Name="Серия_номер_паспорта" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Код_участка" Type="Int32" Nullable="false" />
+          <Property Name="Код_квалификации" Type="Int32" Nullable="false" />
+          <Property Name="Администратор" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Администраторы" Relationship="Self.FK_Администраторы_Сотрудники" FromRole="Сотрудники" ToRole="Администраторы" />
+          <NavigationProperty Name="Квалификации" Relationship="Self.FK_Сотрудники_Квалификации" FromRole="Сотрудники" ToRole="Квалификации" />
+          <NavigationProperty Name="Пол" Relationship="Self.FK_Сотрудники_Пол" FromRole="Сотрудники" ToRole="Пол" />
+          <NavigationProperty Name="Сертификаты" Relationship="Self.FK_Сертификаты_Сотрудники" FromRole="Сотрудники" ToRole="Сертификаты" />
+          <NavigationProperty Name="Участки_организации" Relationship="Self.FK_Сотрудники_Участки_организации" FromRole="Сотрудники" ToRole="Участки_организации" />
+        </EntityType>
+        <EntityType Name="Типы_сертификатов">
+          <Key>
+            <PropertyRef Name="Код_типа_сертификата" />
+          </Key>
+          <Property Name="Код_типа_сертификата" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Тип_сертификата" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Сертификаты" Relationship="Self.FK_Сертификаты_Типы_сертификатов" FromRole="Типы_сертификатов" ToRole="Сертификаты" />
+        </EntityType>
+        <EntityType Name="Участки_организации">
+          <Key>
+            <PropertyRef Name="Код_участка" />
+          </Key>
+          <Property Name="Код_участка" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Наименование_участка" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Код_отдела" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Отделы_организации" Relationship="Self.FK_Участки_организации_Отделы_организации" FromRole="Участки_организации" ToRole="Отделы_организации" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Сотрудники_Участки_организации" FromRole="Участки_организации" ToRole="Сотрудники" />
+        </EntityType>
+        <Association Name="FK_Администраторы_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Администраторы" Type="Self.Администраторы" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Администраторы">
+              <PropertyRef Name="Код_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Квалификации">
+          <End Role="Квалификации" Type="Self.Квалификации" Multiplicity="1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Квалификации">
+              <PropertyRef Name="Код_квалификации" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="Код_квалификации" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Участки_организации_Отделы_организации">
+          <End Role="Отделы_организации" Type="Self.Отделы_организации" Multiplicity="1" />
+          <End Role="Участки_организации" Type="Self.Участки_организации" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Отделы_организации">
+              <PropertyRef Name="Код_отдела" />
+            </Principal>
+            <Dependent Role="Участки_организации">
+              <PropertyRef Name="Код_отдела" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Пол">
+          <End Role="Пол" Type="Self.Пол" Multiplicity="1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пол">
+              <PropertyRef Name="Код_пола" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="Код_пола" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сертификаты_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Сертификаты" Type="Self.Сертификаты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Сертификаты">
+              <PropertyRef Name="Код_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сертификаты_Типы_сертификатов">
+          <End Role="Типы_сертификатов" Type="Self.Типы_сертификатов" Multiplicity="1" />
+          <End Role="Сертификаты" Type="Self.Сертификаты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Типы_сертификатов">
+              <PropertyRef Name="Код_типа_сертификата" />
+            </Principal>
+            <Dependent Role="Сертификаты">
+              <PropertyRef Name="Код_типа_сертификата" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Участки_организации">
+          <End Role="Участки_организации" Type="Self.Участки_организации" Multiplicity="1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Участки_организации">
+              <PropertyRef Name="Код_участка" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="Код_участка" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Covid19Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Администраторы" EntityType="Self.Администраторы" />
+          <EntitySet Name="Квалификации" EntityType="Self.Квалификации" />
+          <EntitySet Name="Отделы_организации" EntityType="Self.Отделы_организации" />
+          <EntitySet Name="Пол" EntityType="Self.Пол" />
+          <EntitySet Name="Сертификаты" EntityType="Self.Сертификаты" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" />
+          <EntitySet Name="Типы_сертификатов" EntityType="Self.Типы_сертификатов" />
+          <EntitySet Name="Участки_организации" EntityType="Self.Участки_организации" />
+          <AssociationSet Name="FK_Администраторы_Сотрудники" Association="Self.FK_Администраторы_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Администраторы" EntitySet="Администраторы" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Квалификации" Association="Self.FK_Сотрудники_Квалификации">
+            <End Role="Квалификации" EntitySet="Квалификации" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Участки_организации_Отделы_организации" Association="Self.FK_Участки_организации_Отделы_организации">
+            <End Role="Отделы_организации" EntitySet="Отделы_организации" />
+            <End Role="Участки_организации" EntitySet="Участки_организации" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Пол" Association="Self.FK_Сотрудники_Пол">
+            <End Role="Пол" EntitySet="Пол" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сертификаты_Сотрудники" Association="Self.FK_Сертификаты_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Сертификаты" EntitySet="Сертификаты" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сертификаты_Типы_сертификатов" Association="Self.FK_Сертификаты_Типы_сертификатов">
+            <End Role="Типы_сертификатов" EntitySet="Типы_сертификатов" />
+            <End Role="Сертификаты" EntitySet="Сертификаты" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Участки_организации" Association="Self.FK_Сотрудники_Участки_организации">
+            <End Role="Участки_организации" EntitySet="Участки_организации" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CovidModelContainer" CdmEntityContainer="Covid19Entities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CovidModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Администраторы">
+            <EntityTypeMapping TypeName="CovidModel.Администраторы">
+              <MappingFragment StoreEntitySet="Администраторы">
+                <ScalarProperty Name="Код_администратора" ColumnName="Код_администратора" />
+                <ScalarProperty Name="Логин_администратора" ColumnName="Логин_администратора" />
+                <ScalarProperty Name="Пароль_администратора" ColumnName="Пароль_администратора" />
+                <ScalarProperty Name="Код_сотрудника" ColumnName="Код_сотрудника" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Квалификации">
+            <EntityTypeMapping TypeName="CovidModel.Квалификации">
+              <MappingFragment StoreEntitySet="Квалификации">
+                <ScalarProperty Name="Код_квалификации" ColumnName="Код_квалификации" />
+                <ScalarProperty Name="Квалификация" ColumnName="Квалификация" />
+                <ScalarProperty Name="Возможность_УРР" ColumnName="Возможность_УРР" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Отделы_организации">
+            <EntityTypeMapping TypeName="CovidModel.Отделы_организации">
+              <MappingFragment StoreEntitySet="Отделы_организации">
+                <ScalarProperty Name="Код_отдела" ColumnName="Код_отдела" />
+                <ScalarProperty Name="Наименование_отдела" ColumnName="Наименование_отдела" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пол">
+            <EntityTypeMapping TypeName="CovidModel.Пол">
+              <MappingFragment StoreEntitySet="Пол">
+                <ScalarProperty Name="Код_пола" ColumnName="Код_пола" />
+                <ScalarProperty Name="Пол1" ColumnName="Пол" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сертификаты">
+            <EntityTypeMapping TypeName="CovidModel.Сертификаты">
+              <MappingFragment StoreEntitySet="Сертификаты">
+                <ScalarProperty Name="Код_сертификата" ColumnName="Код_сертификата" />
+                <ScalarProperty Name="Номер_сертификата" ColumnName="Номер_сертификата" />
+                <ScalarProperty Name="Дата_начала_действия" ColumnName="Дата_начала_действия" />
+                <ScalarProperty Name="Дата_окончания_действия" ColumnName="Дата_окончания_действия" />
+                <ScalarProperty Name="Код_сотрудника" ColumnName="Код_сотрудника" />
+                <ScalarProperty Name="Код_типа_сертификата" ColumnName="Код_типа_сертификата" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сотрудники">
+            <EntityTypeMapping TypeName="CovidModel.Сотрудники">
+              <MappingFragment StoreEntitySet="Сотрудники">
+                <ScalarProperty Name="Код_сотрудника" ColumnName="Код_сотрудника" />
+                <ScalarProperty Name="ФИО_сотрудника" ColumnName="ФИО_сотрудника" />
+                <ScalarProperty Name="Дата_рождения" ColumnName="Дата_рождения" />
+                <ScalarProperty Name="Код_пола" ColumnName="Код_пола" />
+                <ScalarProperty Name="Серия_номер_паспорта" ColumnName="Серия_номер_паспорта" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Код_участка" ColumnName="Код_участка" />
+                <ScalarProperty Name="Код_квалификации" ColumnName="Код_квалификации" />
+                <ScalarProperty Name="Администратор" ColumnName="Администратор" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Типы_сертификатов">
+            <EntityTypeMapping TypeName="CovidModel.Типы_сертификатов">
+              <MappingFragment StoreEntitySet="Типы_сертификатов">
+                <ScalarProperty Name="Код_типа_сертификата" ColumnName="Код_типа_сертификата" />
+                <ScalarProperty Name="Тип_сертификата" ColumnName="Тип_сертификата" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Участки_организации">
+            <EntityTypeMapping TypeName="CovidModel.Участки_организации">
+              <MappingFragment StoreEntitySet="Участки_организации">
+                <ScalarProperty Name="Код_участка" ColumnName="Код_участка" />
+                <ScalarProperty Name="Наименование_участка" ColumnName="Наименование_участка" />
+                <ScalarProperty Name="Код_отдела" ColumnName="Код_отдела" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

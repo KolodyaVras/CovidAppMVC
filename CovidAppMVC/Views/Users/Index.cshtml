@@ -1,0 +1,80 @@
+﻿@model IEnumerable<CovidAppMVC.Models.Сотрудники>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Просмотр пользователей</h2>
+
+<p>
+    @using (Html.BeginForm("Create", "Users", FormMethod.Get))
+    {
+        <h5>Добавить нового пользователя:</h5>
+        <input type="submit" value="Добавить" class="btn btn-primary" />
+    }
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            ФИО сотрудника
+        </th>
+        <th>
+            Дата рождения
+        </th>
+        <th>
+            Серия и номер паспорта
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Администратор
+        </th>
+        <th>
+            Квалификация
+        </th>
+        <th>
+            Пол
+        </th>
+        <th>
+            Участок
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ФИО_сотрудника)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Дата_рождения)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Серия_номер_паспорта)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Администратор)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Квалификации.Квалификация)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Пол.Пол1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Участки_организации.Наименование_участка)
+        </td>
+        <td>
+            @Html.ActionLink("Изменить", "Edit", new { id=item.Код_сотрудника }) |
+            @Html.ActionLink("Подробнее", "Details", new { id=item.Код_сотрудника }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Код_сотрудника })
+        </td>
+    </tr>
+}
+
+</table>
