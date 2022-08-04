@@ -10,7 +10,7 @@
   <Class Name="CovidAppMVC.Controllers.PersonalSertificateController">
     <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACERAACBAAAAAACAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAACERAACBACAAAACAAAEAAEACAAEAAAAAAAA=</HashCode>
       <FileName>Controllers\PersonalSertificateController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -24,7 +24,7 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AIAAAAAAEAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIA=</HashCode>
+      <HashCode>AIAAAAAAEAAQAAAAACAAAAAAAAAAAgAAAAAABAAAAIA=</HashCode>
       <FileName>Controllers\QrController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -43,7 +43,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CovidAppMVC.Controllers.АдминистраторыController">
-    <Position X="4" Y="2.75" Width="1.5" />
+    <Position X="4" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>Controllers\АдминистраторыController.cs</FileName>

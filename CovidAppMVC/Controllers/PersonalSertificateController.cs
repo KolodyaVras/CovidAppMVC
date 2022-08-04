@@ -11,6 +11,7 @@ using CovidAppMVC.Models;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.IO;
+using CovidAppMVC.Hubs;
 
 namespace CovidAppMVC.Controllers
 {
@@ -174,7 +175,12 @@ namespace CovidAppMVC.Controllers
                 fileName = System.IO.Path.GetFileName(pdfFile.FileName);
 
                 var path = System.IO.Path.Combine(Server.MapPath("~/App_Data"), fileName);
-                pdfFile.SaveAs(path);
+                if (fileName[fileName.Length - 1] == 'f'
+                    && fileName[fileName.Length - 2] == 'd'
+                    && fileName[fileName.Length - 3] == 'p')
+                    pdfFile.SaveAs(path);
+                else
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }            
 
             if (fileName == null)
@@ -288,6 +294,15 @@ namespace CovidAppMVC.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void SendMessage(string message)
+        {
+            // Получаем контекст хаба
+            var context =
+                Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            // отправляем сообщение
+            context.Clients.All.displayMessage(message);
         }
     }
 }

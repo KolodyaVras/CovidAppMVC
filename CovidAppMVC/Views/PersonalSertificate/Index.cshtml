@@ -10,7 +10,11 @@
     <div class="mb-3 mt-3">
         @foreach (var item in Model)
         {
-            @Html.ActionLink("Добавить новый сертификат вручную", "Create", new { id = item.Код_сотрудника });
+            using (Html.BeginForm("Create", "PersonalSertificate", new { id = item.Код_сотрудника }, FormMethod.Get))
+            {
+                <h5>Добавить новый сертификат:</h5>
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            }
             <br />
             <div class="mb-3">
                 <form action="/PersonalSertificate/CreateFromPdf/@item.Код_сотрудника" method="post" enctype="multipart/form-data">
@@ -64,9 +68,9 @@
                     @Html.DisplayFor(modelItem => item.Типы_сертификатов.Тип_сертификата)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Код_сертификата }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Код_сертификата }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Код_сертификата })
+                    @Html.ActionLink("Изменить", "Edit", new { id = item.Код_сертификата }) |
+                    @Html.ActionLink("Подробнее", "Details", new { id = item.Код_сертификата }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Код_сертификата })
                 </td>
             </tr>
         }

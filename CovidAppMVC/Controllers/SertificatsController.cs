@@ -162,11 +162,18 @@ namespace CovidAppMVC.Controllers
                     workbook.SaveAs(stream);
                     stream.Flush();
 
-                    return new FileContentResult(stream.ToArray(),
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    try
                     {
-                        FileDownloadName = $"vaccinated_{DateTime.UtcNow.ToShortDateString()}.xlsx"
-                    };
+                        return new FileContentResult(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                        {
+                            FileDownloadName = $"vaccinated_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                        };
+                    }
+                    catch
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
                 }
             }
         }
@@ -177,7 +184,7 @@ namespace CovidAppMVC.Controllers
 
             using (XLWorkbook workbook = new XLWorkbook(XLEventTracking.Disabled))
             {
-                var worksheet = workbook.Worksheets.Add("Работники с истекающими сертификатами");
+                var worksheet = workbook.Worksheets.Add("Работники с ист серт");
 
                 worksheet.Cell("A1").Value = "ФИО";
                 worksheet.Cell("B1").Value = "Номер сертификата";
@@ -211,12 +218,18 @@ namespace CovidAppMVC.Controllers
                 {
                     workbook.SaveAs(stream);
                     stream.Flush();
-
-                    return new FileContentResult(stream.ToArray(),
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    try
                     {
-                        FileDownloadName = $"expiringCertificate_{DateTime.UtcNow.ToShortDateString()}.xlsx"
-                    };
+                        return new FileContentResult(stream.ToArray(),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                        {
+                            FileDownloadName = $"expiringCertificate_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                        };
+                    }
+                    catch
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
                 }
             }
         }

@@ -166,12 +166,18 @@ namespace CovidAppMVC.Controllers
                 {
                     workbook.SaveAs(stream);
                     stream.Flush();
-
-                    return new FileContentResult(stream.ToArray(),
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    try
                     {
-                        FileDownloadName = $"{(from s in сертификаты select s.Сотрудники.ФИО_сотрудника).First()}_history_{DateTime.UtcNow.ToShortDateString()}.xlsx"
-                    };
+                        return new FileContentResult(stream.ToArray(),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                        {
+                            FileDownloadName = $"{(from s in сертификаты select s.Сотрудники.ФИО_сотрудника).First()}_history_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                        };
+                    }
+                    catch
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
                 }
             }
         }

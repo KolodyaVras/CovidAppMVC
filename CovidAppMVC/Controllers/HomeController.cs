@@ -1,4 +1,4 @@
-﻿using CovidAppMVC.Models;
+﻿    using CovidAppMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

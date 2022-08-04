@@ -7,6 +7,11 @@
 <div class="jumbotron">
     <h1>COVID-19 App</h1>
     <p class="lead">Система информационного учета сотрудников по их вакцинации от COVID-19.</p>
+    @using (Html.BeginForm("Login", "Администраторы", FormMethod.Get))
+    {
+        <h5>Нажмите, чтобы войти как администратор системы:</h5>
+        <input type="submit" value="Войти" class="btn btn-primary" />
+    }
 </div>
 
 @using (Html.BeginForm())

@@ -9,12 +9,16 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CovidAppMVC.Models;
+using CovidAppMVC.Hubs;
 using ZXing;
 
 namespace CovidAppMVC.Controllers
 {
     public class QrController : Controller
     {
+        private Covid19Entities db = new Covid19Entities();
+        HttpClient client = new HttpClient();
+
         public ActionResult QRScanView()
         {
             return View();
@@ -40,56 +44,65 @@ namespace CovidAppMVC.Controllers
                 url = result.ToString();
                 GetData(url);
             }
+            else
+            {
+                SendMessage("Ошибка, QR-код не прочитан!");
+            }
 
             return Content("true");
         }
 
-        static async Task GetData(string url)
+        private void GetData(string url)
         {
             string checkUrl = "https://www.gosuslugi.ru/covid-cert/status/";
-
-            /*url = "https://www.gosuslugi.ru/api/covid-cert-checker/v3/cert/" + url.Substring(36);
-            //Console.WriteLine(url);
-            //Console.WriteLine("https://www.gosuslugi.ru/api/covid-cert-checker/v3/cert/status/97092f87-c655-4894-a77d-ceaa98fa4cd4?");
-            await program.GetItems(url);*/
-
-            //Console.WriteLine("https://www.gosuslugi.ru/covid-cert/status/e598f485-2334-44a4-8633-b4af9527f95f?lang=ru".Length);
             try
             {
                 if (url.Substring(0, 43) == checkUrl && url.Length >= 79 && url.Length <= 87)
                 {
                     url = "https://www.gosuslugi.ru/api/covid-cert-checker/v3/cert/" + url.Substring(36);
-                    //Console.WriteLine(url);
-                    //Console.WriteLine("https://www.gosuslugi.ru/api/covid-cert-checker/v3/cert/status/97092f87-c655-4894-a77d-ceaa98fa4cd4?");
-                    await GetItems(url);
+                    GetItems(url);
                 }
-                else
+                /*else
                 {
-                    Console.WriteLine("Ошибка");
-                }
+                    SendMessage("Ошибка, QR-код не с сайта госуслуг!");
+                }*/
             }
             catch (Exception e)
             {
-                Console.WriteLine("Ошибка");
+                SendMessage("Ошибка, QR-код не с сайта госуслуг!");
             }
         }
 
-        private static async Task GetItems(string url)
-        {
-            HttpClient client = new HttpClient();
-            string response = await client.GetStringAsync(url);
-
-            Console.WriteLine(response);
+        private void GetItems(string url)
+        {           
+            string response = client.GetStringAsync(url).Result;           
             Sertificate sertificate = JsonConvert.DeserializeObject<Sertificate>(response);
-            Console.WriteLine();
-            Console.WriteLine(sertificate.certId);
-            Console.WriteLine(sertificate.validFrom);
+
+            var сертификаты = db.Сертификаты;
+            foreach (var c in сертификаты)
+            {
+                if (c.Номер_сертификата == string.Format("{0:#### #### #### ####}", sertificate.certId))
+                {
+                    SendMessage("Сертификат успешно найден!");
+                    return;
+                }                    
+            }
+            SendMessage("Сертификат не найден!");
         }
 
         private class Sertificate
         {
-            public string certId { get; set; }
+            public long certId { get; set; }
             public string validFrom { get; set; }
+        }
+
+        private void SendMessage(string message)
+        {
+            // Получаем контекст хаба
+            var context =
+                Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            // отправляем сообщение
+            context.Clients.All.displayMessage(message);
         }
     }
 }
